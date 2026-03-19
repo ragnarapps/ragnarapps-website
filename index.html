@@ -99,11 +99,16 @@
 
   .dropdown { position: relative; }
   .dropdown-menu {
-    display: none; position: absolute; top: calc(100% + 16px); left: -20px;
+    display: none; position: absolute; top: 100%; left: -20px;
     background: rgba(7,21,37,0.98); border: 1px solid rgba(42,143,212,0.2);
     min-width: 220px; z-index: 200; backdrop-filter: blur(10px);
+    padding-top: 8px;
+  }
+  .dropdown-menu::before {
+    content: ''; position: absolute; top: -8px; left: 0; right: 0; height: 8px;
   }
   .dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu:hover { display: block; }
   .dropdown-section { padding: 8px 0; border-bottom: 1px solid rgba(42,143,212,0.1); }
   .dropdown-section:last-child { border-bottom: none; }
   .dropdown-label {
@@ -293,6 +298,53 @@
     .contact-inner { flex-direction: column; align-items: flex-start; }
     footer { padding: 24px; flex-direction: column; align-items: flex-start; }
   }
+
+  /* PRODUCTS SECTION */
+  .products-section { position: relative; z-index: 1; padding: 80px 60px; max-width: 1200px; margin: 0 auto; border-top: 1px solid rgba(42,143,212,0.1); }
+  .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 40px; }
+  .product-card { background: rgba(7,21,37,0.6); border: 1px solid rgba(42,143,212,0.2); border-radius: 8px; overflow: hidden; transition: border-color 0.3s; position: relative; }
+  .product-card:hover { border-color: rgba(42,143,212,0.5); }
+  .addon-card { border-color: rgba(201,168,76,0.2); }
+  .addon-card:hover { border-color: rgba(201,168,76,0.5); }
+  .product-badge { position: absolute; top: 12px; right: 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; background: rgba(46,125,50,0.3); color: #81c784; border: 1px solid rgba(46,125,50,0.4); z-index: 2; }
+  .product-badge.coming { background: rgba(245,127,23,0.2); color: #ffb74d; border-color: rgba(245,127,23,0.3); }
+  .product-badge.addon { background: rgba(201,168,76,0.2); color: var(--gold); border-color: rgba(201,168,76,0.3); }
+  .product-mockup { background: rgba(3,10,20,0.8); border-bottom: 1px solid rgba(42,143,212,0.15); padding: 0; }
+  .mockup-header { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(14,61,110,0.3); border-bottom: 1px solid rgba(42,143,212,0.1); }
+  .mockup-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .mockup-dot.red { background: rgba(220,50,50,0.6); }
+  .mockup-dot.amber { background: rgba(245,127,23,0.6); }
+  .mockup-dot.green { background: rgba(46,125,50,0.6); }
+  .mockup-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--text-muted); margin-left: 4px; }
+  .mockup-body { padding: 12px; }
+  .mockup-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .mockup-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); width: 48px; flex-shrink: 0; }
+  .mockup-field { height: 6px; background: rgba(42,143,212,0.15); border-radius: 3px; flex: 1; border: 1px solid rgba(42,143,212,0.1); }
+  .mockup-field.short { max-width: 60px; }
+  .mockup-divider { height: 1px; background: rgba(42,143,212,0.1); margin: 8px 0; }
+  .mockup-timer { display: flex; gap: 8px; margin: 6px 0; }
+  .mockup-timer-box { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; background: rgba(42,143,212,0.1); color: var(--text-muted); border: 1px solid rgba(42,143,212,0.2); }
+  .mockup-timer-box.active { background: rgba(42,143,212,0.25); color: var(--foam); border-color: rgba(42,143,212,0.5); }
+  .mockup-task { display: flex; gap: 8px; margin-bottom: 4px; align-items: center; }
+  .mockup-time { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); width: 32px; flex-shrink: 0; }
+  .mockup-action { font-size: 0.65rem; color: var(--ice); opacity: 0.8; }
+  .mockup-task.muted .mockup-action { opacity: 0.4; }
+  .mockup-deco-block { background: rgba(42,143,212,0.06); border: 1px solid rgba(42,143,212,0.15); border-radius: 4px; padding: 6px 8px; margin: 4px 0; }
+  .mockup-deco-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .mockup-deco-row { font-size: 0.65rem; color: var(--text-muted); padding: 2px 4px; border-radius: 3px; margin-bottom: 2px; }
+  .mockup-deco-row.active-deco { background: rgba(46,125,50,0.2); color: #81c784; border-left: 2px solid #81c784; }
+  .mockup-deco-row.next-deco { color: var(--text-muted); border-left: 2px solid rgba(42,143,212,0.3); padding-left: 6px; }
+  .mockup-bolt-grid { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; }
+  .mockup-bolt-header, .mockup-bolt-row { display: flex; gap: 0; }
+  .mockup-bolt-header span, .mockup-bolt-row span { flex: 1; text-align: center; padding: 2px 0; }
+  .mockup-bolt-header { color: var(--text-muted); border-bottom: 1px solid rgba(42,143,212,0.15); }
+  .mockup-bolt-row { color: var(--foam); }
+  .product-info { padding: 16px 20px 20px; }
+  .product-name { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--white); margin-bottom: 8px; }
+  .product-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+  .product-features { display: flex; flex-wrap: wrap; gap: 6px; }
+  .feature-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; background: rgba(42,143,212,0.08); border: 1px solid rgba(42,143,212,0.2); color: var(--foam); border-radius: 3px; }
+  @media (max-width: 900px) { .products-grid { grid-template-columns: 1fr; } .products-section { padding: 60px 24px; } }
 </style>
 </head>
 <body>
@@ -392,6 +444,115 @@
     <a href="https://app.ragnarapps.com/login" class="portal-btn gold">Sign In →</a>
   </div>
 </div>
+
+
+<!-- Products Preview -->
+<section class="products-section fade-up" id="tools">
+  <div class="section-tag">Our Tools</div>
+  <h2 class="section-title">Built for Offshore Operations</h2>
+  <div class="products-grid">
+
+    <div class="product-card">
+      <div class="product-badge">Live</div>
+      <div class="product-mockup">
+        <div class="mockup-header">
+          <div class="mockup-dot red"></div><div class="mockup-dot amber"></div><div class="mockup-dot green"></div>
+          <span class="mockup-title">Bell Dive Sheet Record</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-row"><div class="mockup-label">Project</div><div class="mockup-field"></div></div>
+          <div class="mockup-row"><div class="mockup-label">Bell Run</div><div class="mockup-field short"></div></div>
+          <div class="mockup-row"><div class="mockup-label">Diver 1</div><div class="mockup-field"></div></div>
+          <div class="mockup-row"><div class="mockup-label">Diver 2</div><div class="mockup-field"></div></div>
+          <div class="mockup-divider"></div>
+          <div class="mockup-timer">
+            <div class="mockup-timer-box active">00:42:17</div>
+            <div class="mockup-timer-box">00:38:05</div>
+          </div>
+          <div class="mockup-divider"></div>
+          <div class="mockup-task"><div class="mockup-time">14:22</div><div class="mockup-action">Diver 1 Leave Surface</div></div>
+          <div class="mockup-task"><div class="mockup-time">14:23</div><div class="mockup-action">Diver 2 Leave Surface</div></div>
+          <div class="mockup-task muted"><div class="mockup-time">14:31</div><div class="mockup-action">Bell On Bottom</div></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Bell Dive Log</h3>
+        <p class="product-desc">Digital saturation diving record sheets. Supervisors submit bell run data in real time — automatically stored and routed to management.</p>
+        <div class="product-features">
+          <span class="feature-tag">Live Timers</span>
+          <span class="feature-tag">Gas Mix Tracking</span>
+          <span class="feature-tag">Task Log</span>
+          <span class="feature-tag">PDF Export</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-badge coming">Coming Soon</div>
+      <div class="product-mockup">
+        <div class="mockup-header">
+          <div class="mockup-dot red"></div><div class="mockup-dot amber"></div><div class="mockup-dot green"></div>
+          <span class="mockup-title">Air Dive Sheet Record</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-row"><div class="mockup-label">Project</div><div class="mockup-field"></div></div>
+          <div class="mockup-row"><div class="mockup-label">Dive Run</div><div class="mockup-field short"></div></div>
+          <div class="mockup-row"><div class="mockup-label">Diver 1</div><div class="mockup-field"></div></div>
+          <div class="mockup-row"><div class="mockup-label">Standby</div><div class="mockup-field"></div></div>
+          <div class="mockup-divider"></div>
+          <div class="mockup-deco-block">
+            <div class="mockup-deco-label">Deco Schedule — USN Rev 7</div>
+            <div class="mockup-deco-row active-deco">25 min &rarr; 6m &rarr; 9 min</div>
+            <div class="mockup-deco-row next-deco">30 min &rarr; 6m &rarr; 14 min</div>
+          </div>
+          <div class="mockup-divider"></div>
+          <div class="mockup-task"><div class="mockup-time">09:14</div><div class="mockup-action">Diver 1 Leave Surface</div></div>
+          <div class="mockup-task muted"><div class="mockup-time">09:52</div><div class="mockup-action">Diver 1 On Surface</div></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Air Dive Log</h3>
+        <p class="product-desc">Digital air diving record sheets with embedded US Navy and NORSOK decompression tables. Auto-calculates deco schedule from depth and time.</p>
+        <div class="product-features">
+          <span class="feature-tag">USN Rev 7 Tables</span>
+          <span class="feature-tag">NORSOK Tables</span>
+          <span class="feature-tag">SurDO2 Profile</span>
+          <span class="feature-tag">Auto Deco</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card addon-card">
+      <div class="product-badge addon">Add-On</div>
+      <div class="product-mockup">
+        <div class="mockup-header">
+          <div class="mockup-dot red"></div><div class="mockup-dot amber"></div><div class="mockup-dot green"></div>
+          <span class="mockup-title">Hydratight Module</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-row"><div class="mockup-label">Standard</div><div class="mockup-field short"></div></div>
+          <div class="mockup-row"><div class="mockup-label">NPS Size</div><div class="mockup-field short"></div></div>
+          <div class="mockup-row"><div class="mockup-label">Pressure</div><div class="mockup-field short"></div></div>
+          <div class="mockup-divider"></div>
+          <div class="mockup-bolt-grid">
+            <div class="mockup-bolt-header"><span>Bolt</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+            <div class="mockup-bolt-row"><span>Flats</span><span>2</span><span>2</span><span>3</span><span>2</span><span>2</span><span>3</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Hydratight Module</h3>
+        <p class="product-desc">Flange bolt tensioning records with built-in flange database. Tracks passes, flats per bolt, gap and radial measurements per bolt.</p>
+        <div class="product-features">
+          <span class="feature-tag">Flange Database</span>
+          <span class="feature-tag">Multi-Pass</span>
+          <span class="feature-tag">Gap &amp; Radial</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <!-- About -->
 <section class="about-section fade-up" id="about">
