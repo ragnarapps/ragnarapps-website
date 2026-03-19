@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bell Dive Log — Ragnar Apps</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #050e1a; --abyss: #071525; --ocean: #0a2540; --mid: #0e3d6e;
+    --steel: #1a5f9e; --surface: #2a8fd4; --foam: #7ec8e3; --ice: #c8eaf5;
+    --white: #f0f6fa; --gold: #c9a84c; --gold-light: #e8c96a;
+    --text-muted: #7a9cb8; --green: #2ecc71; --amber: #f39c12; --red: #e74c3c;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--deep); color:var(--white); font-family:'Barlow',sans-serif; overflow-x:hidden; }
+
+  .ocean-bg {
+    position:fixed; inset:0; z-index:0;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(14,61,110,0.6) 0%, transparent 70%),
+      linear-gradient(180deg, #020b14 0%, #050e1a 30%, #071525 60%, #0a1e35 100%);
+    pointer-events:none;
+  }
+  .stars {
+    position:fixed; inset:0; z-index:0;
+    background-image:
+      radial-gradient(1px 1px at 20% 15%, rgba(200,234,245,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 8%, rgba(200,234,245,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 25%, rgba(200,234,245,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 20%, rgba(200,234,245,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 60% 12%, rgba(200,234,245,0.6) 0%, transparent 100%);
+    pointer-events:none;
+  }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:20px 60px; display:flex; align-items:center; justify-content:space-between;
+    background:linear-gradient(180deg,rgba(5,14,26,0.97) 0%,transparent 100%);
+    border-bottom:1px solid rgba(42,143,212,0.1);
+  }
+  .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .nav-logo-text { font-family:'Cinzel',serif; font-size:1.1rem; font-weight:600; letter-spacing:0.15em; color:var(--white); }
+  .nav-logo-text span { color:var(--gold); }
+  .nav-back { font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); text-decoration:none; transition:color 0.3s; }
+  .nav-back:hover { color:var(--foam); }
+  .nav-cta { font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase; padding:10px 24px; background:transparent; border:1px solid var(--gold); color:var(--gold); text-decoration:none; transition:all 0.3s; }
+  .nav-cta:hover { background:var(--gold); color:var(--deep); }
+
+  /* HERO */
+  .page-hero { position:relative; z-index:1; padding:140px 60px 80px; text-align:center; border-bottom:1px solid rgba(42,143,212,0.1); }
+  .page-badge { display:inline-block; font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; padding:5px 16px; border:1px solid rgba(42,143,212,0.4); color:var(--foam); border-radius:2px; margin-bottom:20px; }
+  .page-badge.gold { border-color:rgba(201,168,76,0.4); color:var(--gold); }
+  .page-badge.coming { border-color:rgba(243,156,18,0.4); color:var(--amber); }
+  .page-hero h1 { font-family:'Cinzel',serif; font-size:clamp(2.2rem,5vw,4rem); font-weight:700; letter-spacing:0.05em; margin-bottom:10px; background:linear-gradient(180deg,var(--white) 0%,var(--ice) 50%,var(--foam) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .page-hero .subtitle { font-family:'Cinzel',serif; font-size:1rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:28px; }
+  .page-hero p { font-size:1rem; font-weight:300; line-height:1.8; color:var(--ice); max-width:600px; margin:0 auto 36px; opacity:0.85; }
+  .hero-tags { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .hero-tag { font-family:'Barlow Condensed',sans-serif; font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; padding:5px 14px; background:rgba(42,143,212,0.08); border:1px solid rgba(42,143,212,0.25); color:var(--foam); }
+
+  /* SECTIONS */
+  .section { position:relative; z-index:1; padding:80px 60px; max-width:1200px; margin:0 auto; }
+  .section-tag { font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; display:flex; align-items:center; gap:12px; }
+  .section-tag::before { content:''; width:28px; height:1px; background:var(--gold); }
+  .section h2 { font-family:'Cinzel',serif; font-size:clamp(1.5rem,3vw,2.2rem); color:var(--white); margin-bottom:12px; line-height:1.2; }
+  .section p.lead { font-size:0.95rem; color:var(--text-muted); line-height:1.8; max-width:680px; margin-bottom:40px; font-weight:300; }
+  .section-divider { position:relative; z-index:1; border:none; border-top:1px solid rgba(42,143,212,0.1); }
+
+  /* SCREEN MOCKUP */
+  .screen-wrap { background:rgba(7,21,37,0.8); border:1px solid rgba(42,143,212,0.25); border-radius:8px; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,0.4); }
+  .screen-bar { background:rgba(14,61,110,0.4); border-bottom:1px solid rgba(42,143,212,0.2); padding:10px 16px; display:flex; align-items:center; gap:8px; }
+  .screen-dot { width:9px; height:9px; border-radius:50%; }
+  .screen-dot.r { background:rgba(220,50,50,0.7); } .screen-dot.a { background:rgba(245,127,23,0.7); } .screen-dot.g { background:rgba(46,180,50,0.7); }
+  .screen-url { font-family:'Barlow Condensed',sans-serif; font-size:0.68rem; letter-spacing:0.08em; color:var(--text-muted); background:rgba(5,14,26,0.6); border:1px solid rgba(42,143,212,0.15); border-radius:3px; padding:3px 12px; margin-left:8px; }
+  .screen-body { padding:20px; background:rgba(5,14,26,0.5); }
+
+  /* FORM ELEMENTS */
+  .fm-card { background:rgba(7,21,37,0.7); border:1px solid rgba(42,143,212,0.2); border-radius:6px; padding:14px 16px; margin-bottom:12px; }
+  .fm-title { font-family:'Barlow Condensed',sans-serif; font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--foam); margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid rgba(42,143,212,0.15); }
+  .fm-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .fm-grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+  .fm-field label { font-size:0.58rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:3px; }
+  .fm-input { height:28px; background:rgba(5,14,26,0.5); border:1px solid rgba(42,143,212,0.2); border-radius:3px; padding:0 8px; display:flex; align-items:center; }
+  .fm-input span { font-size:0.72rem; color:var(--text-muted); }
+  .fm-input.filled span { color:var(--white); }
+  .fm-input.highlight { border-color:rgba(46,204,113,0.4); background:rgba(46,204,113,0.06); }
+  .fm-input.highlight span { color:var(--green); font-weight:600; }
+
+  /* TIMERS */
+  .timer-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .timer-card { background:rgba(7,21,37,0.7); border:1px solid rgba(42,143,212,0.2); border-radius:6px; padding:12px; }
+  .timer-card.active { border-color:rgba(42,143,212,0.5); background:rgba(10,37,64,0.7); }
+  .timer-name { font-size:0.62rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px; }
+  .timer-btn { width:100%; padding:6px; border-radius:4px; font-family:'Barlow Condensed',sans-serif; font-size:0.68rem; letter-spacing:0.08em; text-align:center; margin-bottom:8px; border:1px solid; cursor:default; }
+  .timer-btn.out { background:rgba(42,143,212,0.15); border-color:rgba(42,143,212,0.4); color:var(--foam); }
+  .timer-btn.standby { background:rgba(5,14,26,0.5); border-color:rgba(42,143,212,0.15); color:var(--text-muted); }
+  .timer-time { font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:600; color:var(--white); }
+  .timer-card.active .timer-time { color:var(--surface); }
+  .active-dot { width:6px; height:6px; border-radius:50%; background:var(--surface); display:inline-block; margin-right:5px; animation:pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .depth-row { display:flex; gap:4px; margin-top:6px; }
+  .depth-box { flex:1; background:rgba(5,14,26,0.5); border:1px solid rgba(42,143,212,0.15); border-radius:3px; padding:3px 4px; text-align:center; }
+  .depth-box label { font-size:0.5rem; color:var(--text-muted); display:block; }
+  .depth-box span { font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--white); }
+
+  /* TASK LOG */
+  .task-log { background:rgba(7,21,37,0.7); border:1px solid rgba(42,143,212,0.2); border-radius:6px; overflow:hidden; }
+  .task-row { display:flex; align-items:center; gap:10px; padding:8px 14px; border-bottom:1px solid rgba(42,143,212,0.1); }
+  .task-row:last-child { border-bottom:none; }
+  .task-time { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--text-muted); width:52px; flex-shrink:0; }
+  .task-action { font-size:0.78rem; color:var(--ice); flex:1; }
+  .task-badge { font-size:0.58rem; padding:2px 7px; border-radius:2px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.05em; border:1px solid; }
+  .task-badge.green { background:rgba(46,204,113,0.1); border-color:rgba(46,204,113,0.3); color:var(--green); }
+  .task-badge.blue { background:rgba(42,143,212,0.1); border-color:rgba(42,143,212,0.3); color:var(--foam); }
+  .task-badge.amber { background:rgba(243,156,18,0.1); border-color:rgba(243,156,18,0.3); color:var(--amber); }
+
+  /* RECORDS TABLE */
+  .records-wrap { background:rgba(7,21,37,0.7); border:1px solid rgba(42,143,212,0.2); border-radius:6px; overflow:hidden; }
+  .records-toolbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid rgba(42,143,212,0.15); background:rgba(14,61,110,0.3); }
+  .records-title { font-family:'Cinzel',serif; font-size:0.9rem; color:var(--white); }
+  .records-btn { font-family:'Barlow Condensed',sans-serif; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; padding:5px 12px; border:1px solid rgba(42,143,212,0.3); border-radius:3px; color:var(--text-muted); background:transparent; cursor:pointer; }
+  .rec-table { width:100%; border-collapse:collapse; font-size:0.78rem; }
+  .rec-table th { background:rgba(14,61,110,0.2); padding:8px 14px; text-align:left; font-family:'Barlow Condensed',sans-serif; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); border-bottom:1px solid rgba(42,143,212,0.15); }
+  .rec-table td { padding:10px 14px; border-bottom:1px solid rgba(42,143,212,0.08); color:var(--ice); }
+  .rec-table tr:last-child td { border-bottom:none; }
+  .rec-table tr:hover td { background:rgba(42,143,212,0.05); }
+  .rec-badge { display:inline-flex; align-items:center; font-size:0.62rem; padding:2px 8px; border-radius:2px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.05em; border:1px solid; margin-right:4px; }
+  .rec-badge.bell { background:rgba(42,143,212,0.1); border-color:rgba(42,143,212,0.3); color:var(--foam); }
+  .rec-badge.ht { background:rgba(243,156,18,0.1); border-color:rgba(243,156,18,0.3); color:var(--amber); }
+  .expand-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding:12px 14px; background:rgba(5,14,26,0.5); }
+  .expand-cell { background:rgba(7,21,37,0.7); border:1px solid rgba(42,143,212,0.15); border-radius:4px; padding:6px 8px; }
+  .expand-cell label { font-size:0.56rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; display:block; }
+  .expand-cell span { font-size:0.78rem; color:var(--white); font-weight:500; }
+  .dl-btn { display:inline-flex; align-items:center; gap:6px; font-family:'Barlow Condensed',sans-serif; font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase; padding:5px 12px; border:1px solid rgba(42,143,212,0.3); border-radius:3px; color:var(--foam); background:transparent; margin:8px 14px 12px; cursor:pointer; }
+
+  /* PDF */
+  .pdf-wrap { background:#F8FAFC; border-radius:8px; overflow:hidden; max-width:680px; margin:0 auto; box-shadow:0 8px 40px rgba(0,0,0,0.5); }
+  .pdf-page { padding:24px 28px; }
+  .pdf-header { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:2px solid #1B3A6B; }
+  .pdf-logo-block { display:flex; flex-direction:column; gap:4px; }
+  .pdf-logo-bar { height:6px; border-radius:2px; }
+  .pdf-logo-bar.b1 { width:70px; background:#2563A8; opacity:0.5; }
+  .pdf-logo-bar.b2 { width:48px; background:#1B3A6B; opacity:0.4; }
+  .pdf-center { text-align:center; }
+  .pdf-center h3 { font-family:'Cinzel',serif; font-size:0.95rem; color:#1B3A6B; }
+  .pdf-center p { font-size:0.62rem; color:#64748B; }
+  .pdf-run { font-family:'JetBrains Mono',monospace; font-size:1.4rem; font-weight:700; color:#1B3A6B; text-align:right; }
+  .pdf-run-lbl { font-size:0.55rem; color:#64748B; text-transform:uppercase; letter-spacing:0.1em; text-align:right; }
+  .pdf-stitle { font-family:'Barlow Condensed',sans-serif; font-size:0.62rem; letter-spacing:0.15em; text-transform:uppercase; color:#1B3A6B; background:#EFF6FF; padding:3px 8px; border-left:3px solid #2563A8; margin:10px 0 6px; }
+  .pdf-grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-bottom:6px; }
+  .pdf-cell { border:1px solid #E2E8F0; padding:4px 7px; }
+  .pdf-cell label { font-size:0.52rem; color:#64748B; text-transform:uppercase; letter-spacing:0.06em; display:block; }
+  .pdf-cell span { font-size:0.72rem; color:#1E293B; font-weight:500; }
+  .pdf-tasks { width:100%; border-collapse:collapse; font-size:0.65rem; }
+  .pdf-tasks th { background:#F1F5F9; padding:4px 8px; text-align:left; font-family:'Barlow Condensed',sans-serif; font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; color:#64748B; border:1px solid #E2E8F0; }
+  .pdf-tasks td { padding:3px 8px; border:1px solid #E2E8F0; color:#1E293B; }
+  .pdf-footer { text-align:center; font-size:0.58rem; color:#94A3B8; border-top:1px solid #E2E8F0; padding-top:8px; margin-top:14px; font-style:italic; }
+
+  /* ANALYTICS */
+  .analytics-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:28px; }
+  .analytics-grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:28px; }
+  .analytics-grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:28px; }
+  .metric-card { background:rgba(7,21,37,0.7); border:1px solid rgba(42,143,212,0.2); border-radius:6px; padding:16px; display:flex; justify-content:space-between; align-items:flex-start; }
+  .metric-label { font-family:'Barlow Condensed',sans-serif; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
+  .metric-value { font-family:'JetBrains Mono',monospace; font-size:1.4rem; font-weight:700; color:var(--white); }
+  .metric-icon { background:rgba(42,143,212,0.15); border:1px solid rgba(42,143,212,0.2); border-radius:6px; padding:8px; }
+
+  /* DECO */
+  .deco-block { background:rgba(7,21,37,0.7); border:1px solid rgba(42,143,212,0.2); border-radius:6px; overflow:hidden; }
+  .deco-header { background:rgba(14,61,110,0.3); border-bottom:1px solid rgba(42,143,212,0.15); padding:10px 14px; display:flex; justify-content:space-between; align-items:center; }
+  .deco-h-title { font-family:'Barlow Condensed',sans-serif; font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--foam); }
+  .deco-h-sub { font-size:0.62rem; color:var(--text-muted); }
+  .deco-disclaimer { background:rgba(243,156,18,0.08); border-bottom:1px solid rgba(243,156,18,0.2); padding:5px 14px; font-size:0.62rem; color:var(--amber); }
+  .deco-table { width:100%; border-collapse:collapse; }
+  .deco-table th { background:rgba(14,61,110,0.2); padding:7px 14px; text-align:left; font-family:'Barlow Condensed',sans-serif; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); border-bottom:1px solid rgba(42,143,212,0.15); }
+  .deco-table td { padding:8px 14px; border-bottom:1px solid rgba(42,143,212,0.08); font-size:0.78rem; color:var(--ice); }
+  .deco-table tr.active-deco td { background:rgba(46,204,113,0.08); color:var(--green); font-weight:600; border-left:3px solid var(--green); }
+  .deco-table tr.next-deco td { background:rgba(42,143,212,0.06); color:var(--foam); }
+  .deco-table tr.past-deco td { color:var(--text-muted); opacity:0.5; }
+  .deco-dbadge { font-size:0.58rem; padding:2px 7px; border-radius:2px; font-family:'Barlow Condensed',sans-serif; border:1px solid; }
+  .deco-dbadge.cur { background:rgba(46,204,113,0.1); border-color:rgba(46,204,113,0.3); color:var(--green); }
+  .deco-dbadge.nxt { background:rgba(42,143,212,0.1); border-color:rgba(42,143,212,0.3); color:var(--foam); }
+  .deco-dbadge.done { background:transparent; border-color:rgba(122,156,184,0.2); color:var(--text-muted); }
+
+  /* SURDO2 */
+  .surdo2-chart { display:flex; height:90px; background:rgba(5,14,26,0.5); border:1px solid rgba(42,143,212,0.15); border-radius:5px; overflow:hidden; align-items:flex-end; }
+  .seg-compress { width:28px; background:linear-gradient(to bottom,transparent,rgba(122,156,184,0.5)); }
+  .seg-o2 { background:rgba(46,204,113,0.35); border-left:1px solid rgba(46,204,113,0.3); border-right:1px solid rgba(46,204,113,0.3); display:flex; align-items:center; justify-content:center; }
+  .seg-o2 span { font-family:'Barlow Condensed',sans-serif; font-size:0.58rem; letter-spacing:0.05em; color:var(--green); }
+  .seg-airbrk { background:rgba(243,156,18,0.25); border-left:1px solid rgba(243,156,18,0.3); border-right:1px solid rgba(243,156,18,0.3); display:flex; align-items:center; justify-content:center; }
+  .seg-airbrk span { font-size:0.52rem; color:var(--amber); writing-mode:vertical-rl; transform:rotate(180deg); }
+  .seg-ascent { width:28px; background:linear-gradient(to top,transparent,rgba(42,143,212,0.5)); }
+  .chart-labels { display:flex; justify-content:space-between; font-size:0.58rem; color:var(--text-muted); padding:4px 0; }
+  .chart-legend { display:flex; gap:14px; margin-top:6px; }
+  .legend-item { display:flex; align-items:center; gap:5px; font-size:0.62rem; color:var(--text-muted); }
+  .legend-dot { width:10px; height:10px; border-radius:2px; }
+
+  /* FEATURES */
+  .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .feat-item { display:flex; gap:14px; align-items:flex-start; }
+  .feat-icon { width:38px; height:38px; background:rgba(42,143,212,0.1); border:1px solid rgba(42,143,212,0.2); border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .feat-text h4 { font-size:0.88rem; font-weight:600; color:var(--white); margin-bottom:4px; }
+  .feat-text p { font-size:0.78rem; color:var(--text-muted); line-height:1.6; }
+
+  /* CTA */
+  .cta-section { position:relative; z-index:1; padding:80px 60px; text-align:center; border-top:1px solid rgba(42,143,212,0.1); }
+  .cta-section h2 { font-family:'Cinzel',serif; font-size:2rem; color:var(--white); margin-bottom:12px; }
+  .cta-section p { color:var(--text-muted); margin-bottom:32px; font-size:0.95rem; }
+  .cta-btn { display:inline-block; font-family:'Barlow Condensed',sans-serif; font-size:0.88rem; letter-spacing:0.18em; text-transform:uppercase; padding:14px 44px; background:transparent; border:1px solid var(--gold); color:var(--gold); text-decoration:none; transition:all 0.3s; }
+  .cta-btn:hover { background:var(--gold); color:var(--deep); }
+
+  @media(max-width:768px){ nav{padding:16px 20px;} .section{padding:60px 20px;} .fm-grid{grid-template-columns:1fr 1fr;} .timer-grid{grid-template-columns:1fr;} .analytics-grid,.analytics-grid-3{grid-template-columns:1fr 1fr;} .analytics-grid-2{grid-template-columns:1fr;} .features-grid{grid-template-columns:1fr;} .expand-grid{grid-template-columns:1fr 1fr;} }
+</style>
+</head>
+<body>
+
+<div class="ocean-bg"></div>
+<div class="stars"></div>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="36" height="36" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="18" stroke="rgba(42,143,212,0.4)" stroke-width="1"/>
+      <circle cx="20" cy="20" r="3" fill="rgba(201,168,76,0.8)"/>
+      <path d="M20 8 L23 16 L20 14 L17 16 Z" fill="rgba(42,143,212,0.7)"/>
+    </svg>
+    <span class="nav-logo-text">RAGNAR<span>APPS</span></span>
+  </a>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+  <a href="https://app.ragnarapps.com/login" class="nav-cta">Portal Login</a>
+</nav>
+
+
+<div class="page-hero">
+  <div class="page-badge">Saturation Diving Operations</div>
+  <h1>Bell Dive Log</h1>
+  <div class="subtitle">Offshore Digital Record System</div>
+  <p>Replace carbon paper with real-time digital records. Supervisors submit bell run data from the vessel — instantly stored and available to management.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">Live Timers</span>
+    <span class="hero-tag">Gas Mix Tracking</span>
+    <span class="hero-tag">Task Log</span>
+    <span class="hero-tag">Hydratight Add-On</span>
+    <span class="hero-tag">PDF Export</span>
+    <span class="hero-tag">Analytics</span>
+  </div>
+</div>
+
+<!-- FORM LAYOUT -->
+<section class="section">
+  <div class="section-tag">Form Layout</div>
+  <h2>Digital Bell Dive Sheet</h2>
+  <p class="lead">Project details, personnel, gas mixes and all operational data captured in one digital form on the vessel computer.</p>
+  <div class="screen-wrap">
+    <div class="screen-bar">
+      <div class="screen-dot r"></div><div class="screen-dot a"></div><div class="screen-dot g"></div>
+      <div class="screen-url">app.ragnarapps.com</div>
+    </div>
+    <div class="screen-body">
+      <div class="fm-card" style="background:rgba(14,61,110,0.3);border-color:rgba(42,143,212,0.3);">
+        <div style="display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div style="height:7px;width:55px;border-radius:2px;background:rgba(42,143,212,0.4);"></div>
+            <div style="height:7px;width:38px;border-radius:2px;background:rgba(201,168,76,0.4);"></div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Cinzel',serif;font-size:0.95rem;color:var(--white);">Bell Dive Sheet Record</div>
+            <div style="font-size:0.65rem;color:var(--text-muted);">Saturation Diving Operations</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;color:var(--white);">#0014</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;">Bell Run No.</div>
+          </div>
+        </div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-title">Project Details</div>
+        <div class="fm-grid">
+          <div class="fm-field"><label>Project Name</label><div class="fm-input filled"><span>SSS-Offshore-2026</span></div></div>
+          <div class="fm-field"><label>Project Number</label><div class="fm-input filled"><span>SSS-SAT-001</span></div></div>
+          <div class="fm-field"><label>Client</label><div class="fm-input filled"><span>NMDC Energy</span></div></div>
+          <div class="fm-field"><label>Vessel</label><div class="fm-input filled"><span>MV Safeen Pioneer</span></div></div>
+          <div class="fm-field"><label>Location</label><div class="fm-input filled"><span>Abu Dhabi — Block 4</span></div></div>
+          <div class="fm-field"><label>Permit Number</label><div class="fm-input filled"><span>PTW-2026-0441</span></div></div>
+        </div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-title">Operations Personnel</div>
+        <div class="fm-grid">
+          <div class="fm-field"><label>OCM</label><div class="fm-input filled"><span>Capt. R. Wilkens</span></div></div>
+          <div class="fm-field"><label>Dive Supervisor 1</label><div class="fm-input filled"><span>A. Wilkens</span></div></div>
+          <div class="fm-field"><label>Dive Supervisor 2</label><div class="fm-input filled"><span>M. Irani</span></div></div>
+          <div class="fm-field"><label>Deck Foreman</label><div class="fm-input filled"><span>J. Santos</span></div></div>
+          <div class="fm-field"><label>Winch Operator</label><div class="fm-input filled"><span>K. Ahmed</span></div></div>
+          <div class="fm-field"><label>Standby Diver</label><div class="fm-input filled"><span>P. Nielsen</span></div></div>
+        </div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-title">Gas Mix Values</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+          <div style="border:1px solid rgba(42,143,212,0.2);border-radius:5px;padding:10px;">
+            <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Mix 1 — HeO2</div>
+            <div class="fm-grid-2">
+              <div class="fm-field"><label>Start Bar</label><div class="fm-input filled"><span>185</span></div></div>
+              <div class="fm-field"><label>End Bar</label><div class="fm-input filled"><span>142</span></div></div>
+              <div class="fm-field"><label>Vol m³</label><div class="fm-input filled"><span>2.3</span></div></div>
+              <div class="fm-field"><label>Rec %</label><div class="fm-input highlight"><span>79.2%</span></div></div>
+            </div>
+          </div>
+          <div style="border:1px solid rgba(42,143,212,0.2);border-radius:5px;padding:10px;">
+            <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Mix 2 — Travel</div>
+            <div class="fm-grid-2">
+              <div class="fm-field"><label>Start Bar</label><div class="fm-input filled"><span>200</span></div></div>
+              <div class="fm-field"><label>End Bar</label><div class="fm-input filled"><span>178</span></div></div>
+              <div class="fm-field"><label>Vol m³</label><div class="fm-input filled"><span>2.3</span></div></div>
+              <div class="fm-field"><label>Rec %</label><div class="fm-input highlight"><span>83.1%</span></div></div>
+            </div>
+          </div>
+          <div style="border:1px solid rgba(42,143,212,0.2);border-radius:5px;padding:10px;">
+            <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Mix 3 — Standby</div>
+            <div class="fm-grid-2">
+              <div class="fm-field"><label>Start Bar</label><div class="fm-input filled"><span>195</span></div></div>
+              <div class="fm-field"><label>End Bar</label><div class="fm-input filled"><span>195</span></div></div>
+              <div class="fm-field"><label>Vol m³</label><div class="fm-input filled"><span>2.3</span></div></div>
+              <div class="fm-field"><label>Rec %</label><div class="fm-input"><span>—</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- LIVE OPERATIONS -->
+<section class="section">
+  <div class="section-tag">Live Operations</div>
+  <h2>Real-Time Diver Timers</h2>
+  <p class="lead">Independent timers for each diver with automatic lock-out/lock-in timestamps and depth tracking. Task log records every event with a precise timestamp.</p>
+  <div class="screen-wrap">
+    <div class="screen-bar">
+      <div class="screen-dot r"></div><div class="screen-dot a"></div><div class="screen-dot g"></div>
+      <div class="screen-url">app.ragnarapps.com — Diver Operations</div>
+    </div>
+    <div class="screen-body">
+      <div class="fm-card">
+        <div class="fm-title">Diver Operations</div>
+        <div class="timer-grid">
+          <div class="timer-card active">
+            <div class="timer-name">Diver 1</div>
+            <div class="fm-field" style="margin-bottom:8px;"><div class="fm-input filled"><span>J. Martinez</span></div></div>
+            <div class="timer-btn out">J. Martinez — On Surface</div>
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+              <span class="active-dot"></span><span class="timer-time">01:24:38</span>
+            </div>
+            <div style="font-size:0.58rem;color:var(--surface);">● Active</div>
+            <div class="depth-row">
+              <div class="depth-box"><label>Depth m</label><span>52.4</span></div>
+              <div class="depth-box"><label>Depth ft</label><span>171.9</span></div>
+            </div>
+          </div>
+          <div class="timer-card active">
+            <div class="timer-name">Diver 2</div>
+            <div class="fm-field" style="margin-bottom:8px;"><div class="fm-input filled"><span>K. Thompson</span></div></div>
+            <div class="timer-btn out">K. Thompson — On Surface</div>
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+              <span class="active-dot"></span><span class="timer-time">01:18:11</span>
+            </div>
+            <div style="font-size:0.58rem;color:var(--surface);">● Active</div>
+            <div class="depth-row">
+              <div class="depth-box"><label>Depth m</label><span>50.1</span></div>
+              <div class="depth-box"><label>Depth ft</label><span>164.4</span></div>
+            </div>
+          </div>
+          <div class="timer-card">
+            <div class="timer-name">Bellman</div>
+            <div class="fm-field" style="margin-bottom:8px;"><div class="fm-input filled"><span>P. Nielsen</span></div></div>
+            <div class="timer-btn standby">P. Nielsen — Leave Surface</div>
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+              <span class="timer-time" style="color:var(--text-muted);">00:00:00</span>
+            </div>
+            <div style="font-size:0.58rem;color:var(--text-muted);">Standby</div>
+            <div class="depth-row">
+              <div class="depth-box"><label>Depth m</label><span style="color:var(--text-muted);">—</span></div>
+              <div class="depth-box"><label>Depth ft</label><span style="color:var(--text-muted);">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-title">Task Log</div>
+        <div class="task-log">
+          <div class="task-row"><span class="task-time">08:14:22</span><span class="task-action">Bell Lock Off</span><span class="task-badge green">Auto</span></div>
+          <div class="task-row"><span class="task-time">08:28:45</span><span class="task-action">Bell On Bottom — 52.4m</span><span class="task-badge green">Auto</span></div>
+          <div class="task-row"><span class="task-time">08:31:10</span><span class="task-action">J. Martinez Leave Surface</span><span class="task-badge blue">Diver 1</span></div>
+          <div class="task-row"><span class="task-time">08:33:22</span><span class="task-action">K. Thompson Leave Surface</span><span class="task-badge blue">Diver 2</span></div>
+          <div class="task-row"><span class="task-time">09:44:18</span><span class="task-action">Umbilical inspection complete — no anomalies</span><span class="task-badge amber">Note</span></div>
+          <div class="task-row"><span class="task-time">09:55:48</span><span class="task-action">J. Martinez On Surface</span><span class="task-badge blue">Diver 1</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- RECORDS -->
+<section class="section">
+  <div class="section-tag">Admin View</div>
+  <h2>Records &amp; Management Dashboard</h2>
+  <p class="lead">HR and management access all submitted records. Expand any entry to see full details or download the PDF report.</p>
+  <div class="screen-wrap">
+    <div class="screen-bar">
+      <div class="screen-dot r"></div><div class="screen-dot a"></div><div class="screen-dot g"></div>
+      <div class="screen-url">app.ragnarapps.com/records</div>
+    </div>
+    <div class="screen-body">
+      <div class="records-wrap">
+        <div class="records-toolbar">
+          <span class="records-title">Submission Records (14)</span>
+          <button class="records-btn">↻ Refresh</button>
+        </div>
+        <table class="rec-table">
+          <thead><tr><th>Date</th><th>Project</th><th>Bell Run #</th><th>Supervisor</th><th>Type</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;">19 Mar 2026 09:55</span></td>
+              <td><div style="font-weight:600;color:var(--white);">SSS-Offshore-2026</div><div style="font-size:0.65rem;color:var(--text-muted);">SSS-SAT-001</div></td>
+              <td style="font-family:'JetBrains Mono',monospace;">#0014</td>
+              <td>A. Wilkens</td>
+              <td><span class="rec-badge bell">Bell Dive</span><span class="rec-badge ht">Hydratight</span></td>
+            </tr>
+            <tr>
+              <td colspan="5" style="padding:0;">
+                <div class="expand-grid">
+                  <div class="expand-cell"><label>Diver 1</label><span>J. Martinez — 01:24:38</span></div>
+                  <div class="expand-cell"><label>Diver 2</label><span>K. Thompson — 01:18:11</span></div>
+                  <div class="expand-cell"><label>Max Depth</label><span>52.4m / 171.9ft</span></div>
+                  <div class="expand-cell"><label>Bell Time</label><span>02:48:14</span></div>
+                </div>
+                <button class="dl-btn">⬇ Download Bell Dive PDF</button>
+                <button class="dl-btn">⬇ Download Hydratight PDF</button>
+              </td>
+            </tr>
+            <tr>
+              <td><span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;">18 Mar 2026 14:22</span></td>
+              <td><div style="font-weight:600;color:var(--white);">SSS-Offshore-2026</div><div style="font-size:0.65rem;color:var(--text-muted);">SSS-SAT-001</div></td>
+              <td style="font-family:'JetBrains Mono',monospace;">#0013</td>
+              <td>A. Wilkens</td>
+              <td><span class="rec-badge bell">Bell Dive</span></td>
+            </tr>
+            <tr>
+              <td><span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;">18 Mar 2026 06:11</span></td>
+              <td><div style="font-weight:600;color:var(--white);">SSS-Offshore-2026</div><div style="font-size:0.65rem;color:var(--text-muted);">SSS-SAT-001</div></td>
+              <td style="font-family:'JetBrains Mono',monospace;">#0012</td>
+              <td>M. Irani</td>
+              <td><span class="rec-badge bell">Bell Dive</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- PDF -->
+<section class="section">
+  <div class="section-tag">PDF Export</div>
+  <h2>Auto-Generated PDF Reports</h2>
+  <p class="lead">Every submission generates a professional PDF report — ready to send to clients or management at the click of a button.</p>
+  <div class="screen-wrap">
+    <div class="screen-bar">
+      <div class="screen-dot r"></div><div class="screen-dot a"></div><div class="screen-dot g"></div>
+      <div class="screen-url">BellDive_SSS-Offshore-2026_BR0014_2026-03-19.pdf</div>
+    </div>
+    <div style="padding:24px;background:rgba(14,61,110,0.15);">
+      <div class="pdf-wrap">
+        <div class="pdf-page">
+          <div class="pdf-header">
+            <div class="pdf-logo-block"><div class="pdf-logo-bar b1"></div><div class="pdf-logo-bar b2"></div></div>
+            <div class="pdf-center"><h3>Bell Dive Sheet Record</h3><p>Saturation Diving Operations</p></div>
+            <div><div class="pdf-run">#0014</div><div class="pdf-run-lbl">Bell Run No.</div></div>
+          </div>
+          <div class="pdf-stitle">Project Details</div>
+          <div class="pdf-grid-3">
+            <div class="pdf-cell"><label>Project Name</label><span>SSS-Offshore-2026</span></div>
+            <div class="pdf-cell"><label>Project No.</label><span>SSS-SAT-001</span></div>
+            <div class="pdf-cell"><label>Client</label><span>NMDC Energy</span></div>
+            <div class="pdf-cell"><label>Vessel</label><span>MV Safeen Pioneer</span></div>
+            <div class="pdf-cell"><label>Location</label><span>Abu Dhabi — Block 4</span></div>
+            <div class="pdf-cell"><label>Permit</label><span>PTW-2026-0441</span></div>
+          </div>
+          <div class="pdf-stitle">Dive Times</div>
+          <div class="pdf-grid-3">
+            <div class="pdf-cell"><label>Diver 1 Total</label><span>01:24:38</span></div>
+            <div class="pdf-cell"><label>Diver 2 Total</label><span>01:18:11</span></div>
+            <div class="pdf-cell"><label>Bell Time</label><span>02:48:14</span></div>
+            <div class="pdf-cell"><label>Max Depth D1</label><span>52.4m / 171.9ft</span></div>
+            <div class="pdf-cell"><label>Max Depth D2</label><span>50.1m / 164.4ft</span></div>
+            <div class="pdf-cell"><label>Storage Depth</label><span>55m / 180.4ft</span></div>
+          </div>
+          <div class="pdf-stitle">Task Log</div>
+          <table class="pdf-tasks">
+            <thead><tr><th>Time</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>08:14:22</td><td>Bell Lock Off</td></tr>
+              <tr><td>08:28:45</td><td>Bell On Bottom — 52.4m</td></tr>
+              <tr><td>08:31:10</td><td>J. Martinez Leave Surface</td></tr>
+              <tr><td>08:33:22</td><td>K. Thompson Leave Surface</td></tr>
+              <tr><td>09:55:48</td><td>J. Martinez On Surface</td></tr>
+              <tr><td>10:01:33</td><td>K. Thompson On Surface</td></tr>
+              <tr><td>10:44:59</td><td>Bell Leave Bottom</td></tr>
+              <tr><td>10:58:36</td><td>Bell Lock On</td></tr>
+            </tbody>
+          </table>
+          <div class="pdf-footer">Generated by Ragnar Apps — Bell Dive Log | ragnarapps.com | Supervisor: A. Wilkens</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ANALYTICS -->
+<section class="section">
+  <div class="section-tag">Analytics</div>
+  <h2>Operations Analytics Dashboard</h2>
+  <p class="lead">Admins and senior management access operational statistics — bell run counts, dive times, and timing breakdowns for any selected period.</p>
+  <div class="screen-wrap">
+    <div class="screen-bar">
+      <div class="screen-dot r"></div><div class="screen-dot a"></div><div class="screen-dot g"></div>
+      <div class="screen-url">app.ragnarapps.com/analytics</div>
+    </div>
+    <div class="screen-body">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div style="font-family:'Cinzel',serif;font-size:1rem;color:var(--white);">Operations Analytics</div>
+        <div style="display:flex;gap:8px;">
+          <div style="background:rgba(42,143,212,0.15);border:1px solid rgba(42,143,212,0.3);color:var(--foam);font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.1em;padding:5px 14px;border-radius:3px;">Last 7 Days ▾</div>
+          <div style="background:rgba(42,143,212,0.08);border:1px solid rgba(42,143,212,0.2);color:var(--text-muted);font-size:0.65rem;padding:5px 10px;border-radius:3px;">↻</div>
+          <div style="background:rgba(42,143,212,0.08);border:1px solid rgba(42,143,212,0.2);color:var(--text-muted);font-size:0.65rem;padding:5px 10px;border-radius:3px;">⬇</div>
+        </div>
+      </div>
+
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Bell Run Overview</div>
+      <div class="analytics-grid" style="margin-bottom:20px;">
+        <div class="metric-card">
+          <div><div class="metric-label">Total Bell Runs</div><div class="metric-value">14</div></div>
+          <div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+        </div>
+        <div class="metric-card">
+          <div><div class="metric-label">Avg Runs / Day</div><div class="metric-value">2.0</div></div>
+          <div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        </div>
+        <div class="metric-card">
+          <div><div class="metric-label">Total Bell Time</div><div class="metric-value">38:44</div></div>
+          <div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        </div>
+        <div class="metric-card">
+          <div><div class="metric-label">Avg Bell Run Time</div><div class="metric-value">02:46</div></div>
+          <div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        </div>
+      </div>
+
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Diver Time Statistics</div>
+      <div class="analytics-grid-3" style="margin-bottom:20px;">
+        <div class="metric-card"><div><div class="metric-label">Total Dive Time — Diver 1</div><div class="metric-value">19:22</div></div><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div></div>
+        <div class="metric-card"><div><div class="metric-label">Total Dive Time — Diver 2</div><div class="metric-value">17:48</div></div><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div></div>
+        <div class="metric-card"><div><div class="metric-label">Combined Total Dive Time</div><div class="metric-value">37:10</div></div><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div></div>
+        <div class="metric-card"><div><div class="metric-label">Avg Dive Time / Bell Run</div><div class="metric-value">02:39</div></div><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div>
+        <div class="metric-card"><div><div class="metric-label">Avg D1 Time per Run</div><div class="metric-value">01:23</div></div><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div>
+        <div class="metric-card"><div><div class="metric-label">Avg D2 Time per Run</div><div class="metric-value">01:16</div></div><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div>
+      </div>
+
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Operational Timing</div>
+      <div class="analytics-grid-2">
+        <div class="metric-card"><div><div class="metric-label">Avg Bell Lock Off → On Bottom</div><div class="metric-value">14 min</div></div><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></div></div>
+        <div class="metric-card"><div><div class="metric-label">Avg Bell On Bottom → D1 Lock Out</div><div class="metric-value">3 min</div></div><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></div></div>
+        <div class="metric-card"><div><div class="metric-label">Avg Bell On Bottom → D2 Lock Out</div><div class="metric-value">5 min</div></div><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></div></div>
+        <div class="metric-card"><div><div class="metric-label">Avg Leave Bottom → Lock On</div><div class="metric-value">18 min</div></div><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- FEATURES -->
+<section class="section">
+  <div class="section-tag">Features</div>
+  <h2>Everything You Need</h2>
+  <p class="lead">Built specifically for saturation diving supervisors, HR teams and offshore management.</p>
+  <div class="features-grid">
+    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="feat-text"><h4>Live Diver Timers</h4><p>Independent timers for each diver with automatic lock-out/in timestamps.</p></div></div>
+    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div class="feat-text"><h4>Pre-Dive Checks</h4><p>Bell, DP, crane, bridge and gas panel checks with timestamped confirmation.</p></div></div>
+    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M3 3h18v18H3zM3 9h18M9 21V9"/></svg></div><div class="feat-text"><h4>Gas Mix Tracking</h4><p>Three gas panels with start/end pressures and automatic reclaim % calculation.</p></div></div>
+    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><div class="feat-text"><h4>Voice Task Log</h4><p>Hands-free voice input for task entries using Whisper AI transcription.</p></div></div>
+    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="feat-text"><h4>PDF Export</h4><p>Professional PDF reports generated automatically from every submission.</p></div></div>
+    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="feat-text"><h4>Analytics Dashboard</h4><p>Bell run counts, dive times and operational timing stats for any period.</p></div></div>
+  </div>
+</section>
+
+<div class="cta-section">
+  <h2>Ready to Go Digital?</h2>
+  <p>Contact us to get your vessel set up on the Bell Dive Log system.</p>
+  <a href="mailto:info@ragnarapps.com" class="cta-btn">Get in Touch</a>
+</div>
+
+</body></html>
