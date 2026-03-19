@@ -697,12 +697,12 @@
       <h3>Get in Touch</h3>
       <p>Questions about the platform, pricing, or getting your vessel set up?<br>Reach out and we'll get back to you promptly.</p>
     </div>
-    <a href="mailto:info@ragnarapps.com" class="contact-email">
+    <a id="contact-email-link" href="#" class="contact-email">
       <svg class="contact-email-icon" viewBox="0 0 20 20" fill="none">
         <rect x="2" y="4" width="16" height="12" rx="2" stroke="rgba(201,168,76,0.7)" stroke-width="1.5"/>
         <path d="M2 7 L10 12 L18 7" stroke="rgba(201,168,76,0.7)" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
-      <span class="contact-email-text">info@ragnarapps.com</span>
+      <span class="contact-email-text" id="contact-email-text">loading...</span>
     </a>
   </div>
 </section>
@@ -710,5 +710,39 @@
 <!-- Footer -->
 <footer>
   <div class="footer-logo">RAGNAR<span>APPS</span></div>
-  <div class="footer-copy">© 2026 Ragnar Apps. All rights reserved.</div>
-  <div class="footer-email"><a href="/cdn-cgi/l/email-protection#1970777f76596b787e77786b7869696a377a7674"><span class
+  <div class="footer-copy">© 2026 Ragnar Apps. All rights
+<script>
+(function() {
+  // Set emails dynamically to prevent Cloudflare obfuscation
+  var e = ['i','n','f','o','@','r','a','g','n','a','r','a','p','p','s','.','c','o','m'].join('');
+  var m = 'mailto:' + e;
+  var els = [
+    ['contact-email-link', 'href', m],
+    ['contact-email-text', 'textContent', e],
+    ['footer-email-link', 'href', m],
+    ['footer-email-link', 'textContent', e]
+  ];
+  els.forEach(function(x) {
+    var el = document.getElementById(x[0]);
+    if (el) el[x[1]] = x[2];
+  });
+
+  // Scroll animations
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(en) { if (en.isIntersecting) en.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(function(el) { obs.observe(el); });
+
+  // Hamburger menu
+  var btn = document.getElementById('hamburger');
+  var menu = document.getElementById('mobileMenu');
+  if (btn && menu) {
+    btn.addEventListener('click', function() {
+      btn.classList.toggle('open');
+      menu.classList.toggle('open');
+      document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+    });
+  }
+})();
+</script>
+</html>
