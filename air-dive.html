@@ -232,17 +232,18 @@
 
 
 <div class="page-hero">
-  <div class="page-badge coming">⚙ In Development</div>
+  <div class="page-badge" style="border-color:rgba(46,204,113,0.4);color:var(--green);">● Live</div>
   <h1>Air Dive Log</h1>
   <div class="subtitle">Surface Oriented Diving Operations</div>
-  <p>Digital air diving record sheets with embedded US Navy Rev 7 and NORSOK decompression tables. The app automatically calculates and updates the deco schedule in real time.</p>
+  <p>Digital air diving record sheets with embedded US Navy Rev 7 and NORSOK decompression tables. Auto-calculates and updates the deco schedule in real time as bottom time increases.</p>
   <div class="hero-tags">
     <span class="hero-tag">USN Rev 7 Tables</span>
     <span class="hero-tag">NORSOK Tables</span>
     <span class="hero-tag">Auto Deco Schedule</span>
-    <span class="hero-tag">SurDO2 Profile</span>
+    <span class="hero-tag">SurDO2 Profile Chart</span>
     <span class="hero-tag">One-Plus-One Rule</span>
     <span class="hero-tag">Live Timers</span>
+    <span class="hero-tag">Incident Reporting</span>
   </div>
 </div>
 
@@ -250,7 +251,7 @@
 <section class="section">
   <div class="section-tag">Form Layout</div>
   <h2>Digital Air Dive Sheet</h2>
-  <p class="lead">Project details, personnel, gas mixes and dive run number auto-increments with each submission.</p>
+  <p class="lead">Project details, personnel, gas mixes and dive run number captured in one digital form on the vessel computer. Auto-increments with each submission.</p>
   <div class="screen-wrap">
     <div class="screen-bar">
       <div class="screen-dot r"></div><div class="screen-dot a"></div><div class="screen-dot g"></div>
@@ -298,26 +299,98 @@
 
 <hr class="section-divider">
 
+<!-- LIVE TIMERS -->
+<section class="section">
+  <div class="section-tag">Live Operations</div>
+  <h2>Real-Time Diver Timers</h2>
+  <p class="lead">Independent live timers for each diver with depth tracking. The deco schedule updates automatically as each timer advances.</p>
+  <div class="screen-wrap">
+    <div class="screen-bar">
+      <div class="screen-dot r"></div><div class="screen-dot a"></div><div class="screen-dot g"></div>
+      <div class="screen-url">app.ragnarapps.com/air-dive — Diver Operations</div>
+    </div>
+    <div class="screen-body">
+      <div class="fm-card">
+        <div class="fm-title">Diver Operations</div>
+        <div class="timer-grid">
+          <div class="timer-card active">
+            <div class="timer-name">Diver 1</div>
+            <div class="fm-field" style="margin-bottom:8px;"><div class="fm-input filled"><span>R. Andersen</span></div></div>
+            <div class="timer-btn out">R. Andersen — On Surface</div>
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+              <span class="active-dot"></span><span class="timer-time">00:22:14</span>
+            </div>
+            <div style="font-size:0.58rem;color:var(--surface);">● Active</div>
+            <div class="depth-row">
+              <div class="depth-box"><label>Depth m</label><span>24.8</span></div>
+              <div class="depth-box"><label>Depth ft</label><span>81.4</span></div>
+            </div>
+          </div>
+          <div class="timer-card active">
+            <div class="timer-name">Diver 2</div>
+            <div class="fm-field" style="margin-bottom:8px;"><div class="fm-input filled"><span>T. Bakke</span></div></div>
+            <div class="timer-btn out">T. Bakke — On Surface</div>
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+              <span class="active-dot"></span><span class="timer-time">00:18:42</span>
+            </div>
+            <div style="font-size:0.58rem;color:var(--surface);">● Active</div>
+            <div class="depth-row">
+              <div class="depth-box"><label>Depth m</label><span>23.1</span></div>
+              <div class="depth-box"><label>Depth ft</label><span>75.8</span></div>
+            </div>
+          </div>
+          <div class="timer-card">
+            <div class="timer-name">Standby Diver</div>
+            <div class="fm-field" style="margin-bottom:8px;"><div class="fm-input filled"><span>C. Johansen</span></div></div>
+            <div class="timer-btn standby">C. Johansen — Leave Surface</div>
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+              <span class="timer-time" style="color:var(--text-muted);">00:00:00</span>
+            </div>
+            <div style="font-size:0.58rem;color:var(--text-muted);">Standby</div>
+            <div class="depth-row">
+              <div class="depth-box"><label>Depth m</label><span style="color:var(--text-muted);">—</span></div>
+              <div class="depth-box"><label>Depth ft</label><span style="color:var(--text-muted);">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
 <!-- DECO SCHEDULE -->
 <section class="section">
   <div class="section-tag">Decompression Schedule</div>
   <h2>Auto-Updating Deco Tables</h2>
-  <p class="lead">The one-plus-one rule is applied automatically — rounding up to the next deeper depth and longer bottom time. Each diver has their own live schedule.</p>
+  <p class="lead">The one-plus-one rule is applied automatically — always rounding up to the next deeper table depth and next longer bottom time. Each diver has their own live schedule that scrolls as the timer advances.</p>
   <div class="screen-wrap">
     <div class="screen-bar">
       <div class="screen-dot r"></div><div class="screen-dot a"></div><div class="screen-dot g"></div>
       <div class="screen-url">app.ragnarapps.com/air-dive — Deco Schedule</div>
     </div>
     <div class="screen-body">
+      <!-- Table selector -->
       <div style="display:flex;gap:8px;margin-bottom:14px;">
         <div style="background:rgba(42,143,212,0.2);border:1px solid rgba(42,143,212,0.4);color:var(--foam);font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:5px 14px;border-radius:3px;">US Navy Rev 7</div>
-        <div style="background:transparent;border:1px solid rgba(42,143,212,0.15);color:var(--text-muted);font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:5px 14px;border-radius:3px;">NORSOK (Coming Soon)</div>
+        <div style="background:transparent;border:1px solid rgba(42,143,212,0.15);color:var(--text-muted);font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:5px 14px;border-radius:3px;">NORSOK</div>
       </div>
+
+      <!-- One plus one explanation -->
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:5px;padding:8px 14px;margin-bottom:14px;font-size:0.72rem;color:var(--gold);">
+        ⚓ One-Plus-One Rule Applied: D1 actual 24.8m → Table 27m &nbsp;|&nbsp; D2 actual 23.1m → Table 27m
+      </div>
+
+      <!-- Two diver deco tables side by side -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
         <div class="deco-block">
           <div class="deco-header">
-            <div><div class="deco-h-title">R. Andersen — Diver 1</div><div class="deco-h-sub">Table: 27m (from 24.8m actual — one-plus-one)</div></div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--surface);">00:22:14</div>
+            <div>
+              <div class="deco-h-title">R. Andersen — Diver 1</div>
+              <div class="deco-h-sub">Table Depth: 27m &nbsp;|&nbsp; Bottom Time: 22:14</div>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--surface);">00:22:14 ▶</div>
           </div>
           <div class="deco-disclaimer">⚠ Reference only — verify against official printed tables</div>
           <table class="deco-table">
@@ -332,8 +405,11 @@
         </div>
         <div class="deco-block">
           <div class="deco-header">
-            <div><div class="deco-h-title">T. Bakke — Diver 2</div><div class="deco-h-sub">Table: 27m (from 23.1m actual — one-plus-one)</div></div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--surface);">00:18:42</div>
+            <div>
+              <div class="deco-h-title">T. Bakke — Diver 2</div>
+              <div class="deco-h-sub">Table Depth: 27m &nbsp;|&nbsp; Bottom Time: 18:42</div>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--surface);">00:18:42 ▶</div>
           </div>
           <div class="deco-disclaimer">⚠ Reference only — verify against official printed tables</div>
           <table class="deco-table">
@@ -347,20 +423,79 @@
           </table>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- SURDO2 -->
+<section class="section">
+  <div class="section-tag">Surface Decompression</div>
+  <h2>Sur D O2 Chamber Profile</h2>
+  <p class="lead">When SurDO2 is indicated, the app automatically generates the full chamber decompression profile — showing compress depth, O2 periods, air breaks and final ascent. Updates live as bottom time changes.</p>
+
+  <div class="screen-wrap">
+    <div class="screen-bar">
+      <div class="screen-dot r"></div><div class="screen-dot a"></div><div class="screen-dot g"></div>
+      <div class="screen-url">app.ragnarapps.com/air-dive — Sur D O2 Profile</div>
+    </div>
+    <div class="screen-body">
+
+      <!-- 1.0 period example -->
+      <div class="fm-card" style="margin-bottom:14px;">
+        <div class="fm-title">Sur D O2 Chamber Profile — 1.0 O2 Period &nbsp;<span style="color:var(--text-muted);font-weight:normal;font-size:0.65rem;">(example: 27m table, 25 min bottom time)</span></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.2);border-radius:3px;padding:4px 10px;font-size:0.65rem;color:var(--amber);">In-water stop @ 12m — 5 min (AIR)</div>
+          <div style="font-size:0.65rem;color:var(--text-muted);">→ Transfer ≤5 min →</div>
+          <div style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.2);border-radius:3px;padding:4px 10px;font-size:0.65rem;color:var(--green);">Enter chamber @ 15m</div>
+        </div>
+        <div class="surdo2-chart">
+          <div class="seg-compress" style="height:85%;"></div>
+          <div class="seg-o2" style="flex:4;height:85%;"><span>O2 — 30 min</span></div>
+          <div class="seg-ascent" style="height:85%;"></div>
+        </div>
+        <div class="chart-labels"><span>Compress to 15m</span><span>O2 Period 1 — 30 min</span><span>Ascent to Surface</span></div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(46,204,113,0.5);border:1px solid rgba(46,204,113,0.4);"></div>100% Oxygen</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(122,156,184,0.3);border:1px solid rgba(122,156,184,0.2);"></div>Compress / Ascent</div>
+        </div>
+        <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-muted);">Total chamber time: ~30 min</div>
+      </div>
+
+      <!-- 2.5 period example -->
       <div class="fm-card">
-        <div class="fm-title">Sur D O2 Chamber Profile — 2.0 O2 Periods</div>
+        <div class="fm-title">Sur D O2 Chamber Profile — 2.5 O2 Periods &nbsp;<span style="color:var(--text-muted);font-weight:normal;font-size:0.65rem;">(example: 27m table, 35 min bottom time)</span></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
+          <div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.2);border-radius:3px;padding:4px 10px;font-size:0.65rem;color:var(--amber);">In-water stop @ 12m — 13 min (AIR)</div>
+          <div style="font-size:0.65rem;color:var(--text-muted);">→ Transfer ≤5 min →</div>
+          <div style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.2);border-radius:3px;padding:4px 10px;font-size:0.65rem;color:var(--green);">Enter chamber @ 15m</div>
+          <div style="background:rgba(220,50,50,0.1);border:1px solid rgba(220,50,50,0.2);border-radius:3px;padding:4px 10px;font-size:0.65rem;color:var(--red);">⚠ 5 min transfer limit</div>
+        </div>
         <div class="surdo2-chart">
           <div class="seg-compress" style="height:85%;"></div>
           <div class="seg-o2" style="flex:3;height:85%;"><span>O2 — 30 min</span></div>
-          <div class="seg-airbrk" style="flex:0.6;height:85%;"><span>Air 5m</span></div>
+          <div class="seg-airbrk" style="flex:0.7;height:85%;"><span>Air</span></div>
           <div class="seg-o2" style="flex:3;height:85%;"><span>O2 — 30 min</span></div>
+          <div class="seg-airbrk" style="flex:0.7;height:85%;"><span>Air</span></div>
+          <div class="seg-o2" style="flex:1.5;height:85%;"><span>O2 15m</span></div>
           <div class="seg-ascent" style="height:85%;"></div>
         </div>
-        <div class="chart-labels"><span>Enter 15m</span><span>O2 Period 1</span><span>Air Break</span><span>O2 Period 2</span><span>Surface</span></div>
-        <div class="chart-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:rgba(46,204,113,0.5);border:1px solid rgba(46,204,113,0.4);"></div>O2 on 100% oxygen</div>
-          <div class="legend-item"><div class="legend-dot" style="background:rgba(243,156,18,0.4);border:1px solid rgba(243,156,18,0.3);"></div>Air break</div>
+        <div class="chart-labels" style="display:flex;justify-content:space-between;font-size:0.55rem;color:var(--text-muted);padding:4px 0;">
+          <span>15m</span><span>O2 ×1</span><span>Air</span><span>O2 ×2</span><span>Air</span><span>O2 ×0.5</span><span>Surface</span>
         </div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(46,204,113,0.5);border:1px solid rgba(46,204,113,0.4);"></div>100% Oxygen — 30 min per period</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(243,156,18,0.4);border:1px solid rgba(243,156,18,0.3);"></div>Air break — 5 min</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(122,156,184,0.3);border:1px solid rgba(122,156,184,0.2);"></div>Compress / Ascent</div>
+        </div>
+        <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-muted);">Total chamber time: ~85 min &nbsp;|&nbsp; O2: 75 min &nbsp;|&nbsp; Air breaks: 10 min</div>
+      </div>
+
+      <!-- Info note -->
+      <div style="background:rgba(42,143,212,0.06);border:1px solid rgba(42,143,212,0.15);border-radius:5px;padding:10px 14px;margin-top:14px;font-size:0.72rem;color:var(--text-muted);line-height:1.6;">
+        <span style="color:var(--foam);font-weight:600;">How it works: </span>
+        The profile auto-generates from the looked-up SurDO2 schedule. As the diver's timer advances into a new bottom time bracket, the profile updates automatically. 0.5 period = 15 min O2. Each full period = 30 min O2 + 5 min air break.
       </div>
     </div>
   </div>
@@ -376,16 +511,16 @@
   <div class="features-grid">
     <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M3 3h18v18H3zM3 9h18M9 21V9"/></svg></div><div class="feat-text"><h4>Embedded Deco Tables</h4><p>US Navy Rev 7 and NORSOK tables built in — no paper tables needed.</p></div></div>
     <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><div class="feat-text"><h4>One-Plus-One Rule</h4><p>Automatically applied — always rounds to the next safer depth and time.</p></div></div>
-    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="feat-text"><h4>Live Auto-Update</h4><p>Deco schedule updates automatically as the diver's bottom time increases.</p></div></div>
-    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="feat-text"><h4>SurDO2 Profile Chart</h4><p>Visual chamber decompression profile showing O2 periods and air breaks.</p></div></div>
-    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><div class="feat-text"><h4>Task Log</h4><p>Voice and manual task logging with automatic timestamps.</p></div></div>
+    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="feat-text"><h4>Live Auto-Update</h4><p>Deco schedule and SurDO2 profile update as the diver's bottom time increases.</p></div></div>
+    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="feat-text"><h4>SurDO2 Profile Chart</h4><p>Visual chamber profile showing O2 periods, air breaks and final ascent.</p></div></div>
+    <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="feat-text"><h4>Incident Reporting</h4><p>Toggle to record any incident with a full description alongside the dive record.</p></div></div>
     <div class="feat-item"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--foam)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="feat-text"><h4>PDF Export</h4><p>Professional dive record PDF generated automatically on submission.</p></div></div>
   </div>
 </section>
 
 <div class="cta-section">
-  <h2>Interested in Early Access?</h2>
-  <p>The Air Dive Log is currently in development. Contact us to register your interest.</p>
+  <h2>Get Your Vessel Set Up</h2>
+  <p>Contact us to get your team onboarded on the Air Dive Log system.</p>
   <a href="mailto:info@ragnarapps.com" class="cta-btn">Contact Us</a>
 </div>
 
