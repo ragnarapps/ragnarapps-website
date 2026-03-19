@@ -345,6 +345,86 @@
   .product-features { display: flex; flex-wrap: wrap; gap: 6px; }
   .feature-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; background: rgba(42,143,212,0.08); border: 1px solid rgba(42,143,212,0.2); color: var(--foam); border-radius: 3px; }
   @media (max-width: 900px) { .products-grid { grid-template-columns: 1fr; } .products-section { padding: 60px 24px; } }
+
+  /* HAMBURGER MENU */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(5,14,26,0.98);
+    z-index: 99;
+    padding: 90px 32px 40px;
+    overflow-y: auto;
+    flex-direction: column;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu-section { margin-bottom: 28px; }
+  .mobile-menu-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .mobile-menu-item {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    text-decoration: none;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(42,143,212,0.1);
+    transition: color 0.2s;
+  }
+  .mobile-menu-item:hover { color: var(--foam); }
+  .mobile-menu-item.plain { color: var(--text-muted); font-size: 0.9rem; }
+  .mobile-portal-btn {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    text-decoration: none;
+    text-align: center;
+    margin-top: 28px;
+    transition: all 0.3s;
+  }
+  .mobile-portal-btn:hover { background: var(--gold); color: var(--deep); }
+
+  @media (max-width: 768px) {
+    .hamburger { display: flex; }
+    .nav-cta { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -399,7 +479,32 @@
   </ul>
 
   <a href="https://app.ragnarapps.com/login" class="nav-cta">Portal Login</a>
+
+  <!-- Hamburger button -->
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-section">
+    <span class="mobile-menu-label">Dive Logs</span>
+    <a href="bell-dive.html" class="mobile-menu-item">Bell Dive Log →</a>
+    <a href="air-dive.html" class="mobile-menu-item">Air Dive Log →</a>
+  </div>
+  <div class="mobile-menu-section">
+    <span class="mobile-menu-label">Add-Ons</span>
+    <a href="hydratight.html" class="mobile-menu-item">Hydratight →</a>
+    <a href="safety.html" class="mobile-menu-item">Safety Reporting →</a>
+  </div>
+  <div class="mobile-menu-section">
+    <span class="mobile-menu-label">Navigation</span>
+    <a href="#about" class="mobile-menu-item plain" onclick="document.getElementById('mobileMenu').classList.remove('open');document.getElementById('hamburger').classList.remove('open');">About</a>
+    <a href="#contact" class="mobile-menu-item plain" onclick="document.getElementById('mobileMenu').classList.remove('open');document.getElementById('hamburger').classList.remove('open');">Contact</a>
+  </div>
+  <a href="https://app.ragnarapps.com/login" class="mobile-portal-btn">Portal Login</a>
+</div>
 
 <!-- Hero -->
 <section class="hero">
@@ -590,12 +695,12 @@
       <h3>Get in Touch</h3>
       <p>Questions about the platform, pricing, or getting your vessel set up?<br>Reach out and we'll get back to you promptly.</p>
     </div>
-    <a href="mailto:info@ragnarapps.com" class="contact-email">
+    <a href="/cdn-cgi/l/email-protection#670e09010827150600090615061717144904080a" class="contact-email">
       <svg class="contact-email-icon" viewBox="0 0 20 20" fill="none">
         <rect x="2" y="4" width="16" height="12" rx="2" stroke="rgba(201,168,76,0.7)" stroke-width="1.5"/>
         <path d="M2 7 L10 12 L18 7" stroke="rgba(201,168,76,0.7)" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
-      <span class="contact-email-text">info@ragnarapps.com</span>
+      <span class="contact-email-text"><span class="__cf_email__" data-cfemail="50393e363f102231373e3122312020237e333f3d">[email&#160;protected]</span></span>
     </a>
   </div>
 </section>
@@ -604,7 +709,4 @@
 <footer>
   <div class="footer-logo">RAGNAR<span>APPS</span></div>
   <div class="footer-copy">© 2026 Ragnar Apps. All rights reserved.</div>
-  <div class="footer-email"><a href="/cdn-cgi/l/email-protection#1970777f76596b787e77786b7869696a377a7674"><span class="__cf_email__" data-cfemail="0c65626a634c7e6d6b626d7e6d7c7c7f226f6361">info@ragnarapps.com</span></a></div>
-</footer>
-
-<script data-cf
+  <div class="footer-email"><a href="/cdn-cgi/l/email-protection#1970777f76596b787e77786b7869696a377a7674"><span class
