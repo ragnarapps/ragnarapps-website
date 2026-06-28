@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tax Day Tracker — Privacy Policy</title>
+<meta name="description" content="Privacy Policy for the Tax Day Tracker app by Ragnar Apps.">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #050e1a; --abyss: #071525; --ocean: #0a2540; --mid: #0e3d6e;
+    --steel: #1a5f9e; --surface: #2a8fd4; --foam: #7ec8e3; --ice: #c8eaf5;
+    --white: #f0f6fa; --gold: #c9a84c; --gold-light: #e8c96a; --text-muted: #7a9cb8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--deep); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+
+  .ocean-bg { position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(14,61,110,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 20% 80%, rgba(10,37,64,0.8) 0%, transparent 60%),
+      linear-gradient(180deg, #020b14 0%, #050e1a 30%, #071525 60%, #0a1e35 100%);
+    pointer-events: none; }
+  .stars { position: fixed; inset: 0; z-index: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 15%, rgba(200,234,245,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 8%, rgba(200,234,245,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 25%, rgba(200,234,245,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 20%, rgba(200,234,245,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 10% 35%, rgba(200,234,245,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 12%, rgba(200,234,245,0.6) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 85% 30%, rgba(200,234,245,0.5) 0%, transparent 100%);
+    pointer-events: none; }
+  .wave-container { position: fixed; bottom: 0; left: 0; width: 100%; height: 220px; z-index: 0; pointer-events: none; overflow: hidden; }
+  .wave { position: absolute; bottom: 0; left: -100%; width: 300%; height: 100%; }
+  .wave svg { width: 100%; height: 100%; }
+  .wave-1 { animation: wave-move 14s linear infinite; opacity: 0.15; }
+  .wave-2 { animation: wave-move 10s linear infinite reverse; opacity: 0.1; bottom: -20px; }
+  .wave-3 { animation: wave-move 18s linear infinite; opacity: 0.08; bottom: -40px; }
+  @keyframes wave-move { 0% { transform: translateX(0); } 100% { transform: translateX(33.33%); } }
+
+  /* NAV (identical to index) */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(180deg, rgba(5,14,26,0.97) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(42,143,212,0.1); }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-logo-icon { width: 40px; height: 40px; }
+  .nav-logo-text { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 600; letter-spacing: 0.15em; color: var(--white); }
+  .nav-logo-text span { color: var(--gold); }
+  .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+  .nav-links li { position: relative; }
+  .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.3s; cursor: pointer; }
+  .nav-links a:hover { color: var(--foam); }
+  .dropdown { position: relative; }
+  .dropdown-menu { display: none; position: absolute; top: 100%; left: -20px; background: rgba(7,21,37,0.98); border: 1px solid rgba(42,143,212,0.2); min-width: 220px; z-index: 200; backdrop-filter: blur(10px); padding-top: 8px; }
+  .dropdown-menu::before { content: ''; position: absolute; top: -8px; left: 0; right: 0; height: 8px; }
+  .dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu:hover { display: block; }
+  .dropdown-section { padding: 8px 0; border-bottom: 1px solid rgba(42,143,212,0.1); }
+  .dropdown-section:last-child { border-bottom: none; }
+  .dropdown-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); padding: 8px 20px 4px; display: block; }
+  .dropdown-item { display: block; padding: 8px 20px; font-size: 0.82rem; color: var(--text-muted); text-decoration: none; transition: all 0.2s; }
+  .dropdown-item:hover { color: var(--foam); background: rgba(42,143,212,0.08); padding-left: 26px; }
+  .nav-cta { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 10px 24px; background: transparent; border: 1px solid var(--gold); color: var(--gold); cursor: pointer; transition: all 0.3s; text-decoration: none; }
+  .nav-cta:hover { background: var(--gold); color: var(--deep); }
+
+  /* HAMBURGER + MOBILE MENU (identical to index) */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; z-index: 10000; position: relative; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(5,14,26,0.98); z-index: 9999; padding: 90px 32px 40px; overflow-y: auto; flex-direction: column; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu-section { margin-bottom: 28px; }
+  .mobile-menu-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; display: block; }
+  .mobile-menu-item { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; padding: 10px 0; border-bottom: 1px solid rgba(42,143,212,0.1); transition: color 0.2s; }
+  .mobile-menu-item:hover { color: var(--foam); }
+  .mobile-menu-item.plain { color: var(--text-muted); font-size: 0.9rem; }
+  .mobile-portal-btn { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 14px 24px; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; text-align: center; margin-top: 28px; transition: all 0.3s; }
+  .mobile-portal-btn:hover { background: var(--gold); color: var(--deep); }
+
+  /* APP HERO */
+  .app-hero { position: relative; z-index: 1; padding: 160px 60px 60px; max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
+  .app-hero-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+  .app-hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
+  .app-hero h1 { font-family: 'Cinzel', serif; font-size: clamp(2.4rem, 4.5vw, 3.6rem); font-weight: 700; line-height: 1.08; letter-spacing: 0.03em; margin-bottom: 20px;
+    background: linear-gradient(180deg, var(--white) 0%, var(--ice) 55%, var(--foam) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .app-hero p.lead { font-size: 1.08rem; font-weight: 300; line-height: 1.8; color: var(--ice); opacity: 0.88; margin-bottom: 32px; max-width: 520px; }
+  .app-hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .play-badge { display: inline-flex; align-items: center; gap: 12px; padding: 12px 24px; background: linear-gradient(135deg, var(--steel), var(--surface)); color: var(--white); text-decoration: none; transition: all 0.3s; border-radius: 6px; }
+  .play-badge:hover { filter: brightness(1.12); }
+  .play-badge svg { width: 22px; height: 22px; }
+  .play-badge-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .play-badge-text small { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.8; }
+  .play-badge-text strong { font-family: 'Barlow', sans-serif; font-size: 1rem; font-weight: 600; }
+  .play-badge.soon { background: transparent; border: 1px solid rgba(126,200,227,0.4); color: var(--foam); cursor: default; }
+  .app-hero-phone { display: flex; justify-content: center; }
+  .phone-frame { width: 270px; border-radius: 32px; border: 10px solid #11202f; box-shadow: 0 30px 80px rgba(0,0,0,0.55); overflow: hidden; background: #11202f; }
+  .phone-frame img { width: 100%; display: block; }
+
+  /* SECTION SHELL */
+  .section { position: relative; z-index: 1; padding: 70px 60px; max-width: 1200px; margin: 0 auto; border-top: 1px solid rgba(42,143,212,0.1); }
+  .section-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-tag::before { content: ''; width: 30px; height: 1px; background: var(--gold); }
+  .section-title { font-family: 'Cinzel', serif; font-size: clamp(1.6rem, 3vw, 2.3rem); color: var(--white); margin-bottom: 36px; line-height: 1.2; }
+
+  /* FEATURE GRID */
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .feature-card { background: rgba(7,21,37,0.6); border: 1px solid rgba(42,143,212,0.2); border-radius: 8px; padding: 26px 24px; transition: border-color 0.3s; }
+  .feature-card:hover { border-color: rgba(42,143,212,0.5); }
+  .feature-icon { font-size: 1.4rem; margin-bottom: 12px; }
+  .feature-card h3 { font-family: 'Cinzel', serif; font-size: 1.05rem; color: var(--white); margin-bottom: 8px; }
+  .feature-card p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.65; }
+
+  /* SCREENSHOT RAIL */
+  .shots { display: flex; gap: 20px; overflow-x: auto; padding: 8px 4px 20px; scroll-snap-type: x mandatory; }
+  .shots::-webkit-scrollbar { height: 6px; }
+  .shots::-webkit-scrollbar-thumb { background: rgba(42,143,212,0.3); border-radius: 3px; }
+  .shot { flex: 0 0 auto; scroll-snap-align: start; }
+  .shot.portrait img { width: 230px; border-radius: 20px; border: 6px solid #11202f; display: block; box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+  .shot.wide img { height: 360px; border-radius: 10px; border: 1px solid rgba(42,143,212,0.25); display: block; box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+  .shot-caption { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-align: center; margin-top: 12px; }
+
+  /* ACCORDION (legal) */
+  .legal-accordion { border: 1px solid rgba(42,143,212,0.2); border-radius: 8px; overflow: hidden; margin-bottom: 16px; background: rgba(7,21,37,0.5); }
+  .legal-accordion > summary { list-style: none; cursor: pointer; padding: 22px 26px; display: flex; align-items: center; justify-content: space-between; font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--white); transition: background 0.2s; }
+  .legal-accordion > summary::-webkit-details-marker { display: none; }
+  .legal-accordion > summary:hover { background: rgba(42,143,212,0.06); }
+  .legal-accordion > summary .chev { font-family: 'Barlow', sans-serif; color: var(--foam); font-size: 1.1rem; transition: transform 0.25s; }
+  .legal-accordion[open] > summary .chev { transform: rotate(180deg); }
+  .legal-body { padding: 4px 30px 30px; border-top: 1px solid rgba(42,143,212,0.12); }
+  .legal-body h2 { font-family: 'Cinzel', serif; font-size: 1.05rem; color: var(--foam); margin: 26px 0 10px; }
+  .legal-body h3 { font-family: 'Barlow', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--ice); margin: 18px 0 8px; }
+  .legal-body p { font-size: 0.92rem; line-height: 1.75; color: rgba(200,234,245,0.82); margin-bottom: 14px; font-weight: 300; }
+  .legal-body ul { margin: 0 0 16px 22px; }
+  .legal-body li { font-size: 0.92rem; line-height: 1.7; color: rgba(200,234,245,0.82); margin-bottom: 7px; font-weight: 300; }
+  .legal-body ol { margin: 0 0 16px 22px; }
+  .legal-body strong { color: var(--foam); font-weight: 500; }
+  .legal-body hr { border: none; border-top: 1px solid rgba(42,143,212,0.15); margin: 22px 0; }
+  .legal-body em { color: var(--text-muted); }
+  .legal-updated { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+
+  /* CONTACT + FOOTER (from index) */
+  .contact-section { position: relative; z-index: 1; padding: 50px 60px 70px; max-width: 1200px; margin: 0 auto; border-top: 1px solid rgba(42,143,212,0.1); }
+  .contact-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+  .contact-text h3 { font-family: 'Cinzel', serif; font-size: 1.4rem; color: var(--white); margin-bottom: 8px; }
+  .contact-text p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+  .contact-email { display: flex; align-items: center; gap: 14px; padding: 18px 28px; border: 1px solid rgba(201,168,76,0.25); background: rgba(201,168,76,0.04); text-decoration: none; transition: all 0.3s; }
+  .contact-email:hover { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
+  .contact-email-text { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; letter-spacing: 0.12em; color: var(--gold); }
+  footer { position: relative; z-index: 1; padding: 28px 60px; border-top: 1px solid rgba(42,143,212,0.1); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-logo { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.2em; color: var(--text-muted); }
+  .footer-logo span { color: var(--gold); }
+  .footer-copy { font-size: 0.75rem; color: rgba(122,156,184,0.4); }
+  .footer-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.12em; color: rgba(122,156,184,0.5); text-decoration: none; transition: color 0.3s; margin-left: 18px; }
+  .footer-links a:hover { color: var(--gold); }
+
+  @media (max-width: 900px) {
+    .app-hero { grid-template-columns: 1fr; padding: 130px 24px 40px; gap: 40px; text-align: center; }
+    .app-hero-eyebrow { justify-content: center; }
+    .app-hero p.lead { margin-left: auto; margin-right: auto; }
+    .app-hero-actions { justify-content: center; }
+    .app-hero-phone { order: -1; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .section { padding: 50px 24px; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .nav-cta { display: none; }
+    .contact-section { padding: 40px 24px 60px; }
+    .contact-inner { flex-direction: column; align-items: flex-start; }
+    footer { padding: 24px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="ocean-bg"></div>
+<div class="stars"></div>
+<div class="wave-container">
+  <div class="wave wave-1"><svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C150,100 350,0 600,60 C850,120 1050,20 1200,60 L1200,120 L0,120 Z" fill="rgba(14,61,110,0.5)"/></svg></div>
+  <div class="wave wave-2"><svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,40 C200,80 400,10 600,50 C800,90 1000,15 1200,45 L1200,120 L0,120 Z" fill="rgba(10,37,64,0.6)"/></svg></div>
+  <div class="wave wave-3"><svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,70 C100,30 300,90 500,55 C700,20 900,80 1200,50 L1200,120 L0,120 Z" fill="rgba(7,21,37,0.7)"/></svg></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="18" stroke="rgba(42,143,212,0.4)" stroke-width="1"/>
+      <path d="M20 8 L20 32 M8 20 L32 20" stroke="rgba(42,143,212,0.3)" stroke-width="0.5"/>
+      <circle cx="20" cy="20" r="3" fill="rgba(201,168,76,0.8)"/>
+      <path d="M20 8 L23 16 L20 14 L17 16 Z" fill="rgba(42,143,212,0.7)"/>
+      <circle cx="20" cy="20" r="10" stroke="rgba(42,143,212,0.25)" stroke-width="1" stroke-dasharray="3 4"/>
+    </svg>
+    <span class="nav-logo-text">RAGNAR<span>APPS</span></span>
+  </a>
+  <ul class="nav-links">
+    <li class="dropdown">
+      <a>Tools &#9662;</a>
+      <div class="dropdown-menu">
+        <div class="dropdown-section">
+          <span class="dropdown-label">Dive Logs</span>
+          <a href="bell-dive.html" class="dropdown-item">Bell Dive Log &rarr;</a>
+          <a href="air-dive.html" class="dropdown-item">Air Dive Log &rarr;</a>
+        </div>
+        <div class="dropdown-section">
+          <span class="dropdown-label">Add-Ons</span>
+          <a href="hydratight.html" class="dropdown-item">Hydratight &rarr;</a>
+          <a href="inspection.html" class="dropdown-item">Inspection &rarr;</a>
+          <a href="safety.html" class="dropdown-item">Safety Reporting &rarr;</a>
+        </div>
+        <div class="dropdown-section">
+          <span class="dropdown-label">Offshore Crew</span>
+          <a href="tax-day-tracker.html" class="dropdown-item">Tax Day Tracker &rarr;</a>
+        </div>
+      </div>
+    </li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="https://app.ragnarapps.com/login" class="nav-cta">Portal Login</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-section">
+    <span class="mobile-menu-label">Dive Logs</span>
+    <a href="bell-dive.html" class="mobile-menu-item">Bell Dive Log &rarr;</a>
+    <a href="air-dive.html" class="mobile-menu-item">Air Dive Log &rarr;</a>
+  </div>
+  <div class="mobile-menu-section">
+    <span class="mobile-menu-label">Add-Ons</span>
+    <a href="hydratight.html" class="mobile-menu-item">Hydratight &rarr;</a>
+    <a href="safety.html" class="mobile-menu-item">Safety Reporting &rarr;</a>
+  </div>
+  <div class="mobile-menu-section">
+    <span class="mobile-menu-label">Offshore Crew</span>
+    <a href="tax-day-tracker.html" class="mobile-menu-item">Tax Day Tracker &rarr;</a>
+  </div>
+  <div class="mobile-menu-section">
+    <span class="mobile-menu-label">Navigation</span>
+    <a href="index.html#about" class="mobile-menu-item plain">About</a>
+    <a href="index.html#contact" class="mobile-menu-item plain">Contact</a>
+  </div>
+  <a href="https://app.ragnarapps.com/login" class="mobile-portal-btn">Portal Login</a>
+</div>
+
+<section class="section" style="padding-top:140px;">
+  <div class="section-tag">Tax Day Tracker</div>
+  <h2 class="section-title">Privacy Policy</h2>
+  <div class="legal-body" style="max-width:820px;">
+<p><strong>Last updated: 27 June 2026</strong></p>
+<p>We wrote this policy in plain language on purpose. No legal jargon, no hidden surprises — just a clear explanation of what we collect, why, and what you can do about it.</p>
+<h2>Who we are</h2>
+<p>Tax Day Tracker is developed by Ragnar Apps, based in Portugal. If you have any questions about this policy or your data, you can reach us at <strong>taxdaytracker@ragnarapps.com</strong>.</p>
+<h2>What we collect</h2>
+<p><strong>Trip and earnings data</strong> — vessel names, companies, countries, dates, pay rates, and earnings you enter. This is stored <strong>on your device</strong>. We do not receive or store it, with one narrow exception explained under "Exporting to Excel" below.</p>
+<p><strong>Profile information (optional)</strong> — if you choose to fill in your profile, we collect:</p>
+<ul>
+<li>Your name</li>
+<li>Your email address</li>
+<li>Your job title (e.g. Saturation Diver, Rigger)</li>
+<li>Your years of experience</li>
+</ul>
+<p>You don't have to fill in any of this to use the app. Trip tracking, the 183-day counter, the 60-day streak, the SAT timer, backup, and Excel export all work without a profile.</p>
+<p><strong>We do not collect:</strong></p>
+<ul>
+<li>Your location</li>
+<li>Your contacts, photos, or other apps' data</li>
+<li>Payment card details (subscriptions, if offered, are handled by Google Play / Apple, who have their own privacy policies)</li>
+</ul>
+<h2>How we use your data</h2>
+<p>If you fill in your profile and email address, depending on which boxes you tick, we may use it to:</p>
+<ol>
+<li><strong>Send you app updates and news</strong> — only if you tick this box. You can untick it anytime in your Profile.</li>
+<li><strong>Share your details with offshore recruitment partners</strong> — only if you tick this box. This means a manning agency or recruiter looking for someone with your job title and experience level may receive your name, email, job title, and years of experience so they can contact you about opportunities.</li>
+<li><strong>Anonymised industry research</strong> — only if you tick this box. This means your job title, years of experience, and general usage patterns (not your name or email) may be used to understand trends in the offshore industry — e.g. "X% of sat divers spend over 183 days offshore per year." This data cannot be traced back to you.</li>
+</ol>
+<p><strong>Each of these is a separate checkbox. Ticking one does not tick the others.</strong> You can change your mind at any time in the Profile screen.</p>
+<h2>Where your data is stored</h2>
+<p><strong>Your trip and earnings data stays on your device.</strong> We don't have a copy.</p>
+<p><strong>Your profile details</strong> — only if you fill them in and tick at least one consent box — are sent to and stored in our dedicated Tax Day Tracker database (hosted on Supabase). We store only your name, email, job title, years of experience, and which boxes you ticked. This database is isolated from our other systems and is used solely to contact you in the ways you consented to.</p>
+<h2>Exporting to Excel</h2>
+<p>When you use the Excel export feature, your trip and earnings data is sent to our server to generate the spreadsheet file, which is then returned to your device. <strong>We do not store this data</strong> — it passes through only to build your file, and is not retained afterwards. This step requires an internet connection.</p>
+<p>To convert earnings between currencies, the app also requests historical exchange rates from <strong>Frankfurter</strong>, a free public exchange-rate service. Only a date and currency codes are sent for this — <strong>none of your personal or earnings data is sent to Frankfurter.</strong></p>
+<h2>Moving your data between devices</h2>
+<p>The app lets you save a backup file of your own data and import it onto another device. This file is created and moved entirely by you (via your own email, messaging, or cloud storage). <strong>It does not pass through us.</strong></p>
+<h2>How long we keep your data</h2>
+<ul>
+<li>Trip data on your device: kept until you delete it or uninstall the app</li>
+<li>Profile data in our database: kept until you request deletion (see below) or for as long as your consent remains active</li>
+</ul>
+<h2>Your rights</h2>
+<p>You can, at any time:</p>
+<ul>
+<li><strong>View and edit</strong> your profile information in the app</li>
+<li><strong>Withdraw consent</strong> by unticking any of the consent boxes in your Profile</li>
+<li><strong>Request full deletion</strong> of your profile data by emailing us at <strong>taxdaytracker@ragnarapps.com</strong> — we'll remove it within 30 days</li>
+<li><strong>Export your trip data</strong> at any time via the Excel export or backup feature</li>
+</ul>
+<p>If you're in the EU/EEA or UK, these rights are guaranteed under GDPR. If you're elsewhere, we apply the same standard to everyone regardless of where you live.</p>
+<h2>Subscriptions</h2>
+<p>If Tax Day Tracker offers a paid tier and you subscribe, your payment is handled entirely by Google Play or the Apple App Store. We do not see or store your card details. We only receive confirmation that you have an active subscription.</p>
+<h2>Children</h2>
+<p>Tax Day Tracker is intended for offshore workers, divers, and maritime crew — all of whom must be adults to work in these industries. We do not knowingly collect data from anyone under 18.</p>
+<h2>Changes to this policy</h2>
+<p>If we make significant changes — especially anything affecting the optional consent boxes — we'll notify you in the app and ask you to review your choices again.</p>
+<h2>Contact</h2>
+<p>Questions, concerns, or deletion requests: <strong>taxdaytracker@ragnarapps.com</strong></p>
+<hr />
+<p><em>This policy is written to be honest and easy to understand. If anything is unclear, please email us and we'll explain it properly — and probably rewrite this section to be clearer for the next person too.</em></p>
+  </div>
+</section>
+
+<section class="contact-section">
+  <div class="contact-inner">
+    <div class="contact-text">
+      <h3>Questions or feedback?</h3>
+      <p>Get in touch about Tax Day Tracker &mdash; bugs, ideas, or data requests.</p>
+    </div>
+    <a id="contact-email-link" href="#" class="contact-email">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <rect x="2" y="4" width="16" height="12" rx="2" stroke="rgba(201,168,76,0.7)" stroke-width="1.5"/>
+        <path d="M2 7 L10 12 L18 7" stroke="rgba(201,168,76,0.7)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span class="contact-email-text" id="contact-email-text">loading&hellip;</span>
+    </a>
+  </div>
+</section>
+<footer>
+  <div class="footer-logo">RAGNAR<span>APPS</span></div>
+  <div class="footer-copy">&copy; 2026 Ragnar Apps. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="tax-day-tracker.html#privacy">Privacy</a>
+    <a href="tax-day-tracker.html#terms">Terms</a>
+    <a href="index.html">Home</a>
+  </div>
+</footer>
+<script>
+(function(){
+  var e = ['t','a','x','d','a','y','t','r','a','c','k','e','r','@','r','a','g','n','a','r','a','p','p','s','.','c','o','m'].join('');
+  var m = 'mailto:' + e;
+  var el = document.getElementById('contact-email-link'); if (el) el.href = m;
+  var tx = document.getElementById('contact-email-text'); if (tx) tx.textContent = e;
+  var btn = document.getElementById('hamburger'); var menu = document.getElementById('mobileMenu');
+  if (btn && menu) { btn.addEventListener('click', function(){ btn.classList.toggle('open'); menu.classList.toggle('open'); document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : ''; }); }
+  menu && menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow=''; }); });
+})();
+</script>
+</body>
+</html>
